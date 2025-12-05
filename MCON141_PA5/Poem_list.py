@@ -1,6 +1,11 @@
 """
-This program will read through a poem, reverse it, change the periods to exclamation points,
-change the word woods to house, and add some comments to the bottom.
+This program will:
+1) read in a poem
+2) reverse it
+3) change the periods to exclamation points
+4) change the word woods to house
+5) add some comments to the bottom
+6) print both the original and edited poems to the screen
 """
 
 import os
@@ -20,11 +25,17 @@ def load_poem_list(doc_filename):
                 line = line.strip()
                 if line != "":
                     poem_lines.append(line)
-                    print(line)  # prints the poem to the screen
     except FileNotFoundError:
         print("File not found")
     return poem_lines
 
+# Prints the poem to the scree.
+# It is used twice: once for the original and once for the remix
+def print_poem(doc_filename):
+    full_path = os.path.join(DOCS_DIR, doc_filename)
+    with open(full_path, "r") as f:
+        for line in f:
+            print(line)
 
 # Reverses the lines and saves a new list
 def reverse_poem(poem_lines):
@@ -41,7 +52,6 @@ def write_new_poem(reversed_lines, doc_filename="poem_remix.txt"):
         with open(full_path, "w") as f:
             for line in reversed_lines:
                 f.write(line.replace("woods", "house").replace(".", "!") + "\n")
-                print(line)     # prints the new poem to the screen
     except FileNotFoundError:
         print("File not found")
     return reversed_lines
@@ -63,11 +73,13 @@ def append_comments(doc_filename="poem_remix.txt"):
 
 # Organizes the functions into a main function
 def main():
-    print("\n" + "Original Poem:" + "\n")
     load_poem_list("Poem.txt")
+    print("\n" + "------------Original Poem:-------------" + "\n")
+    print_poem("Poem.txt")
     reverse_poem(poem_lines)
-    print("\n" + "Remixed Poem:" + "\n")
     write_new_poem(reversed_lines)
+    print("\n" + "-------------Remixed Poem:--------------" + "\n")
+    print_poem( "poem_remix.txt")
 
     append_comments()
 
